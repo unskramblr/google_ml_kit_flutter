@@ -1,13 +1,17 @@
+import 'dart:typed_data';
+
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_mlkit_pose_detection/google_mlkit_pose_detection.dart';
-import 'dart:ui';
+import 'dart:ui' as ui;
 
 import 'coordinates_translator.dart';
 
-class PosePainter extends CustomPainter {
-  PosePainter(
+class PosePainterOnImage extends CustomPainter {
+  PosePainterOnImage(
     this.poses,
+    this.imagePath,
     this.imageSize,
     this.rotation,
     this.cameraLensDirection,
@@ -17,11 +21,23 @@ class PosePainter extends CustomPainter {
   final Size imageSize;
   final InputImageRotation rotation;
   final CameraLensDirection cameraLensDirection;
+  final String imagePath;
+
+  Future<ui.Image> _loadImage(String imageAssetPath) async {
+    final ByteData data = await rootBundle.load(imageAssetPath);
+    final codec = await ui.instantiateImageCodec(
+      data.buffer.asUint8List(),
+      targetHeight: 300,
+      targetWidth: 300,
+    );
+    var frame = await codec.getNextFrame();
+    return frame.image;
+  }
 
   @override
-  void paint(Canvas canvas, Size size) {
-    print("Received this canvas");
-    print(canvas);
+  void paint(Canvas canvas, Size size) async {
+    final ui.Image image = await _loadImage(imagePath);
+    print("Came here?????");
     final paint = Paint()
       ..style = PaintingStyle.stroke
       ..strokeWidth = 4.0
@@ -39,6 +55,7 @@ class PosePainter extends CustomPainter {
 
     for (final pose in poses) {
       pose.landmarks.forEach((_, landmark) {
+        canvas.drawImage(image, const Offset(0, 0), paint);
         canvas.drawCircle(
             Offset(
               translateX(
@@ -123,11 +140,10 @@ class PosePainter extends CustomPainter {
       paintLine(
           PoseLandmarkType.rightKnee, PoseLandmarkType.rightAnkle, rightPaint);
     }
-    print("Finished paintin");
   }
 
   @override
-  bool shouldRepaint(covariant PosePainter oldDelegate) {
+  bool shouldRepaint(covariant PosePainterOnImage oldDelegate) {
     return oldDelegate.imageSize != imageSize || oldDelegate.poses != poses;
   }
 }

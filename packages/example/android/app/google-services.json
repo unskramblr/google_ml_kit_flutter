@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "603309470216",
+    "project_id": "fan-community-345a4",
+    "storage_bucket": "fan-community-345a4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:603309470216:android:f54251dfa8a4f175a917bd",
+        "android_client_info": {
+          "package_name": "com.google_mlkit_example"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCp3SsSTiTmmJ6rlVLIAyZxyEWZi3-uqow"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

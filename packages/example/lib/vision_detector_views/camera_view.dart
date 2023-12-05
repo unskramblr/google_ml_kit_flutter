@@ -81,6 +81,7 @@ class _CameraViewState extends State<CameraView> {
       child: Stack(
         fit: StackFit.expand,
         children: <Widget>[
+          Text("Hello"),
           Center(
             child: _changingCameraLens
                 ? Center(

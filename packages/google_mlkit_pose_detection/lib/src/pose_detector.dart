@@ -34,7 +34,6 @@ class PoseDetector {
       }
       poses.add(Pose(landmarks: landmarks));
     }
-
     return poses;
   }
 
